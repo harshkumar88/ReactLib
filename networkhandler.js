@@ -1,4 +1,4 @@
-import { get_access_token } from "../../React-lib/src/auth";
+import { get_access_token } from "./auth";
 
 async function get_data(url, appContext) {
   try {
