@@ -1,0 +1,19 @@
+.admin_col_1 {
+  flex: 1;
+}
+
+.admin_panel_flex {
+  display: flex;
+  height: calc(100vh - 7.5vh);
+  overflow: auto;
+}
+
+.admin_col_4 {
+  flex: 4;
+  box-shadow: -4px 9px 6px 1px #ebeff3;
+  border-left: 1px solid #ebeef0;
+  overflow-y: auto;
+  width: 80%;
+  max-width: calc(100% - 282px);
+  min-width: calc(80% - 282px);
+}
