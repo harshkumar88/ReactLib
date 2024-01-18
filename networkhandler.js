@@ -16,7 +16,7 @@ async function get_data(url, appContext) {
 
     if (data.error && data.error.status_code === 401) {
       localStorage.clear();
-      window.location.href = "/login";
+      window.location.href = "http://localhost:3002/auth";
     }
 
     if (data.error) {
