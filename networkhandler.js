@@ -95,6 +95,41 @@ async function post_data(url, data, appContext, show) {
   }
 }
 
+async function post_data_without_auth(url, data, appContext, show) {
+  try {
+    appContext.setLoad(true);
+    const response = await fetch(url, {
+      method: "post",
+      headers: new Headers({
+        "Content-Type": "application/json",
+      }),
+      body: JSON.stringify(data),
+    });
+    const responseData = await response.json();
+
+    if (responseData?.status_code === 4003) {
+      throw new Error(responseData.success_msg);
+    }
+
+    if (responseData?.status_code === 4005) {
+      return responseData;
+    }
+
+    if (responseData.error) {
+      throw new Error(responseData.error.message);
+    }
+
+    appContext.setLoad(false);
+    appContext.setReload(!appContext.reload);
+    show && appContext.setAlert(responseData.message, "alert_success");
+
+    return responseData;
+  } catch (error) {
+    appContext.setAlert(error.message, "alert_error");
+    appContext.setLoad(false);
+  }
+}
+
 async function post_data_without_reload(url, data, appContext, show) {
   try {
     appContext.setLoad(true);
@@ -262,4 +297,5 @@ export {
   download_blob,
   post_data_without_reload,
   get_data_Without_auth,
+  post_data_without_auth,
 };
