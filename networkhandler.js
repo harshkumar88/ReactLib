@@ -30,6 +30,35 @@ async function get_data(url, appContext) {
   }
 }
 
+async function get_data_Without_auth(url, appContext) {
+  try {
+    // appContext.setLoad(true);
+    const response = await fetch(url, {
+      method: "get",
+      headers: new Headers({
+        "Content-Type": "application/json",
+        client: "web",
+      }),
+    });
+    // appContext.setLoad(false);
+    const data = await response.json();
+
+    if (data.error && data.error.status_code === 401) {
+      localStorage.clear();
+      window.location.href = "http://localhost:3002/auth";
+    }
+
+    if (data.error) {
+      throw new Error(data.error.message);
+    }
+
+    return data;
+  } catch (error) {
+    appContext.setAlert(error.message, "alert_error");
+    appContext.setLoad(false);
+  }
+}
+
 async function post_data(url, data, appContext, show) {
   try {
     appContext.setLoad(true);
@@ -232,4 +261,5 @@ export {
   delete_data,
   download_blob,
   post_data_without_reload,
+  get_data_Without_auth,
 };
